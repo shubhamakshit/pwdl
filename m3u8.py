@@ -9,6 +9,14 @@ import sys
 import parse_pref as pf 
 
 global FFMPEG_PATH
+global tmp_dir
+global script_location
+global OUT_DIRECTORY
+
+OUT_DIRECTORY = str(os.getcwd())
+script_location = f'{os.path.dirname(os.path.realpath(__file__))}'
+
+tmp_dir = f'{script_location}/tmp'
 
 FFMPEG_PATH = pf.ffmpeg_path()
 if FFMPEG_PATH == None:
@@ -22,7 +30,7 @@ except ImportError:
     shell('pip install urllib')
 
 try:
-    if not os.path.exists('./tmp') : os.system('mkdir ./tmp')
+    if not os.path.exists(f'{tmp_dir}') : os.system(f'mkdir {tmp_dir}')
 except:
     print(f"Failed to create directory {os.getcws()}/tmp\nExiting...")
     exit(-2)
@@ -137,9 +145,9 @@ def process_link(name, link,_id=None):
     import uuid
     if _id == None: _id = str(uuid.uuid4())
 
-    if os.path.exists(f'./tmp/{_id}'): os.system(f'rm -rf ./tmp/{_id}')
-    os.mkdir(f'./tmp/{_id}')
-    os.chdir(f'./tmp/{_id}')
+    if os.path.exists(f'{tmp_dir}/{_id}'): os.system(f'rm -rf {tmp_dir}/{_id}')
+    os.mkdir(f'{tmp_dir}/{_id}')
+    os.chdir(f'{tmp_dir}/{_id}')
     #------------------------------------------------------------------------------------------
 
 
@@ -156,7 +164,7 @@ def process_link(name, link,_id=None):
     #------------------------------------------------------------------------------------------
     #changing directory to /tmp/<_id>
     try:
-        os.chdir(f'./tmp/{_id}')
+        os.chdir(f'{tmp_dir}/{_id}')
     except Exception as e:
         print(f"Error when changing directory to /tmp/{_id}")
         print(e)
@@ -197,49 +205,65 @@ def process_link(name, link,_id=None):
 
 
 def main():
+    # parser = argparse.ArgumentParser(description='PhysicsWallah M3u8 parser.')
+    # parser.add_argument('csv_file', type=str, help='CSV FILE')
+    # args = parser.parse_args()
+    global OUT_DIRECTORY
     parser = argparse.ArgumentParser(description='PhysicsWallah M3u8 parser.')
-    parser.add_argument('csv_file', type=str, help='CSV FILE')
+    parser.add_argument('--csv_file', type=str, help='CSV FILE')
+    parser.add_argument('--url', type=str, help='M3U8 URL for single usage')
+    parser.add_argument('--name', type=str, help='Name for the output file')
+    parser.add_argument('--dir', type=str, help='Output Directory')
     args = parser.parse_args()
 
 
-    m3u8(args.csv_file)
+    if args.dir:
+        OUT_DIRECTORY = args.dir
+        print(OUT_DIRECTORY)
 
-def m3u8(csv_file):
+    if args.csv_file:
+        csv_m3u8(args.csv_file)
+    elif args.url and args.name:
+        m3u8_module(args.name, args.url)
+    else:
+        print("Invalid usage. Use either --csv_file or --url with --name.")
+        parser.print_help()
+
+    #m3u8(args.csv_file)
+
+def csv_m3u8(csv_file):
      # Read links from CSV file
      with open(csv_file, 'r') as file:
          reader = csv.reader(file)
          next(reader)  # Skip header row
          for row in reader:
              name, link = row
-             #checking if ./<name> exists
-             # if os.path.exists(f'./{name}'):
-             #     pass #default value is overwrite
-             # else:
-             #     os.mkdir(f'./{name}')
-             final_path = str( os.getcwd() )
+         return m3u8_module(name,link)
 
-             from parsev2 import sudo_link as get_id
+def m3u8_module(name,link):
 
-             print(f'link before parsing {link}')
+    final_path = OUT_DIRECTORY
+  
+    from parsev2 import sudo_link as get_id
+    print(f'link before parsing {link}')
+    process_link(name, get_id(link))
+  
 
-             process_link(name, get_id(link))
+    print(f'Attrmpting to move ./{name}.mp4')
+    print(f'OUT_DIRECTORY {final_path}')
+    os.system('ls -l')
+    os.system(f'mv -v ./{name}.mp4 {final_path}')
+    #------------------------------------------------------------------------------------------
+    #Cleanup
+    os.chdir(start_location)
+    os.system(f'rm -rf {tmp_dir}')
+    #------------------------------------------------------------------------------------------
+    #Cleanup of ,m3u8 and .enc files 
+    os.system(f'rm -rf *.m3u8')
+    os.system(f'rm -rf *.enc')
+    #-----------------------------------------------------------------------------------------
+    return final_path + f"/.{name}.mp4"
 
-             tmp_dir = str(os.getcwd())
-
-             os.system(f'mv ./{name}.mp4 {final_path}')
-
-             #------------------------------------------------------------------------------------------
-             #Cleanup
-             os.chdir(start_location)
-             os.system(f'rm -rf {tmp_dir}')
-             #------------------------------------------------------------------------------------------
-             #Cleanup of ,m3u8 and .enc files 
-             os.system(f'rm -rf *.m3u8')
-             os.system(f'rm -rf *.enc')
-             #-----------------------------------------------------------------------------------------
-         return final_path + f"/.{name}.mp4"
-
-           
 
 
 if __name__ == "__main__":

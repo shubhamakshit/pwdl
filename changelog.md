@@ -18,8 +18,9 @@ panther[0:1] edited the original files to suit commandline usage
 ## Issues fixed 
  - aria2c dependency removed
  - download progress now effectively shown
-
+ - fixed a not known issue whereby you cannot use m3u8.py from folders other than script-folder
 ## Updates 
  - now uses tqdm to show download progress
+ - added support for external ffmpeg (yet to be tested)
 
 

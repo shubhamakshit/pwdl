@@ -6,8 +6,15 @@ from process import shell
 import argparse
 import re
 import sys
+import parse_pref as pf 
 
+global FFMPEG_PATH
 
+FFMPEG_PATH = pf.ffmpeg_path()
+if FFMPEG_PATH == None:
+    print(f"no valid ffmpeg path in in {pf.PREF_FILE}\nExiting ...")
+    exit(2)
+print(f"FFMPEG PATH => {FFMPEG_PATH}")
 
 try:
     from urllib.parse import urlparse
@@ -21,7 +28,7 @@ except:
     exit(-2)
 
 # dl_script_location is required as files are still downloaded using bash command via shell()
-dl_script_location = str( os.getcwd() ) + '/dl.py'
+dl_script_location = os.path.dirname(os.path.realpath(__file__)) + '/dl.py'
 
 start_location =  str(os.getcwd())
 print('ENTERED M3u8 DOWNLOADER ORIGINAL SCRIPT') # DEBUG
@@ -158,7 +165,7 @@ def process_link(name, link,_id=None):
     #------------------------------------------------------------------------------------------
     # Convert to MP4 using ffmpeg
     sys.stderr.write('Attempting to run ffmpeg command using shell() defined in process.py ')
-    shell(f'ffmpeg -allowed_extensions ALL -y -i main.m3u8 -c copy {name}.mp4')
+    shell(f'{FFMPEG_PATH} -allowed_extensions ALL -y -i main.m3u8 -c copy {name}.mp4')
     #------------------------------------------------------------------------------------------
 
     #------------------------------------------------------------------------------------------

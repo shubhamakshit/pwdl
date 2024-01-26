@@ -15,7 +15,19 @@
 - cannot show download progress as of now [ will be fixed along with aria2c issue ]
 - requires ffmpeg to be installed and on path [ plans to create a auto-install script ]
 - now download is via a csv file only [ will add an option for a single url through commandline ]
-- no documentation or help  
+- no documentation or help
+
+## Requirements
+- `aria2c` (package name `aria2`) installed on PATH
+- `ffmpeg` installed on PATH
+
+```bash
+#For Debian/Ubuntu users
+sudo apt-get update -y
+sudo apt-get install aria2 ffmpeg -y
+```
+
+
 
 ## Usage 
 

@@ -1,8 +1,8 @@
 # PW DOWNLOADER
 
 ## codename 'panther'
-- version = **0.1**
-- development_name = **panther[0:1]**
+- version = **0.1A**
+- development_name = **panther[0:1A]**
 
 ## Advantages
 - Easy to use commandline
@@ -11,9 +11,9 @@
 
 ## Issues - to be fixed
 - Only available for **linux** ( bash only )
-- requires aria2c to installed and on path [ will be replaced by requests library soon ]
-- cannot show download progress as of now [ will be fixed along with aria2c issue ]
-- requires ffmpeg to be installed and on path [ plans to create a auto-install script ]
+- ~~requires aria2c to installed and on path [ will be replaced by requests library soon ]~~
+- ~~cannot show download progress as of now [ will be fixed along with aria2c issue ]~~
+- ~~requires ffmpeg to be installed and on path [ plans to create a auto-install script ]~~
 - now download is via a csv file only [ will add an option for a single url through commandline ]
 - no documentation or help
 

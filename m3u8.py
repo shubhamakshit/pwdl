@@ -33,9 +33,29 @@ dl_script_location = os.path.dirname(os.path.realpath(__file__)) + '/dl.py'
 start_location =  str(os.getcwd())
 print('ENTERED M3u8 DOWNLOADER ORIGINAL SCRIPT') # DEBUG
 
+import requests
+
+def download_file(url, filename=None):
+    if filename is None:
+        filename = url.split('/')[-1]
+
+    # NOTE the stream=True parameter below
+    with requests.get(url, stream=True) as r:
+        r.raise_for_status()
+        with open(filename, 'wb') as f:
+            for chunk in r.iter_content(chunk_size=8192):
+                # If you have chunk encoded response uncomment if
+                # and set chunk_size parameter to None.
+                # if chunk:
+                f.write(chunk)
+
+    return filename
+
+
 def download_m3u8(url):
     print(f"URL at download m3u8 = {url}")
-    shell(f'aria2c {url}')
+    # shell(f'aria2c {url}') #legacy method
+    download_file(url)
 
 def extract_last_segment_number(m3u8_content):
     return m3u8_content.split('\n')[m3u8_content.split('\n').index('#EXT-X-ENDLIST')-1].split('.')[0]
@@ -154,7 +174,8 @@ def process_link(name, link,_id=None):
         m3u8_file.write(m3u8_content)
 
     # downloading enc.key
-    shell(f'aria2c {enc_url} ')
+    #shell(f'aria2c {enc_url} ') #legacy method
+    download_file(enc_url,"enc.key")
     #------------------------------------------------------------------------------------------
 
 

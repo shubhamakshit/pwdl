@@ -321,7 +321,7 @@ def m3u8_module(name,link):
     #------------------------------------------------------------------------------------------
     #Cleanup
     os.chdir(start_location)
-    os.system(f'rm -rf {tmp_dir}') if not iswindows() else os.system('rmdir /s /q '+tmp_dir.replace('/','\\')+' > NUL')
+    os.system(f'rm -rf {tmp_dir}') if not iswindows() else os.system('rmdir /s /q '+tmp_dir.replace('/','\\')+' 0 > NUL')
     #------------------------------------------------------------------------------------------
     #Cleanup of ,m3u8 and .enc files 
     os.system(f'rm -rf *.m3u8') if not iswindows() else os.system('del /s /q *.m3u8')

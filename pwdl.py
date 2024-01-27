@@ -303,7 +303,9 @@ def m3u8_module(name,link):
 
     glv.setDebug() # set debug => True
     # checks if file moved (that is all operations done)
-    if shell(f'mv {"-v" if glv.vout else ""} ./{name}.mp4 {final_path}') == 0:
+    
+    move_exit_code = shell(f'mv {"-v" if glv.vout else ""} ./{name}.mp4 {final_path}') if not iswindows() else shell(f'move "./{name}.mp4" "{final_path}"')
+    if move_exit_code == 0:
         glv.reset()
         cprint(f"Done! {name}.mp4")
     else:

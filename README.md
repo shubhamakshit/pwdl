@@ -14,7 +14,7 @@
 - ~~requires aria2c to installed and on path [ will be replaced by requests library soon ]~~
 - ~~cannot show download progress as of now [ will be fixed along with aria2c issue ]~~
 - ~~requires ffmpeg to be installed and on path [ plans to create a auto-install script ]~~
-- now download is via a csv file only [ will add an option for a single url through commandline ]
+- ~~now download is via a csv file only [ will add an option for a single url through commandline ]~~
 - no documentation or help
 
 ## Requirements
@@ -46,8 +46,20 @@ python -m pip install requests argparse
 ```
 - Usage
 ```bash
-python m3u8.py /path/to/file.csv
-# alternate usage
+python m3u8.py --csv-file "/path/to/file.csv"
+```
+
+```bash
+
+# alternate usages 
 export CSV_FILE="/path/to/file.csv"
-python m3u8.py $CSV_FILE
+python m3u8.py --csv-file "$CSV_FILE"
+
+python m3u8.py --url "<url>" --name "name"
+
+# You may also use the --dir flag to change output directory
+
+python m3u8.py --csv-file "file.csv" --dir "/path/to/out/dir/"
+#                        or
+python m3u8.py --url "url" --name "name" --dir "/path/to/out/dir"
 ```

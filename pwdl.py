@@ -314,6 +314,7 @@ def m3u8_module(name,link):
     if iswindows():
         try:
             shutil.move(os.path.join(os.getcwd(), f'{name}.mp4'), os.path.join(final_path, f'{name}.mp4'))
+            if glv.vout: glv.dprint("Successfully Transferred {name}.mp4 to {final_path}")
         except Exception as e:
             print(f"Error in moving {name}.mp4\nException trace -> {e}")
 

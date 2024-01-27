@@ -31,7 +31,7 @@ global OUT_DIRECTORY
 
 OUT_DIRECTORY = glv.OUT_DIRECTORY
 
-script_location = f'{os.path.dirname(os.path.realpath(__file__))}'
+script_location = f'{os.path.dirname(os.path.realpath(__file__))}'.replace('\\','/')
 tmp_dir = f'{script_location}/tmp'
 
 FFMPEG_PATH = pf.ffmpeg_path()

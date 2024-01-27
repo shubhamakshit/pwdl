@@ -289,7 +289,7 @@ def csv_m3u8(csv_file):
 
 def m3u8_module(name,link):
 
-    final_path = OUT_DIRECTORY
+    final_path = OUT_DIRECTORY.replace('\\','')
   
     from parsev2 import sudo_link as get_id
     if glv.vout: print(f'link before parsing {link}')
@@ -299,7 +299,7 @@ def m3u8_module(name,link):
     if glv.vout: glv.dprint(f'Attempting to move ./{name}.mp4')
     if glv.vout: glv.dprint(f'OUT_DIRECTORY {final_path}')
     if glv.vout: glv.dprint(f"Current Directory contents")
-    if glv.vout: os.system('ls -l')
+    if glv.vout: os.system('ls -l') if not iswindows() else os.system('dir')
 
     glv.setDebug() # set debug => True
     # checks if file moved (that is all operations done)

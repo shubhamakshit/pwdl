@@ -289,7 +289,7 @@ def csv_m3u8(csv_file):
 
 def m3u8_module(name,link):
 
-    final_path = OUT_DIRECTORY.replace('\\','/')
+    final_path = OUT_DIRECTORY
   
     from parsev2 import sudo_link as get_id
     if glv.vout: print(f'link before parsing {link}')

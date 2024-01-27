@@ -42,7 +42,7 @@ name, link
 #!/bin/bash 
 git clone https://github.com/shubhamakshit/pwdl.git
 cd pwdl/
-python -m pip install requests argparse 
+python -m pip install requests argparse urllib3 colorama tqdm
 ```
 - Usage
 ```bash

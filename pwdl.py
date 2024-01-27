@@ -20,6 +20,8 @@ def clear():
     if not os.system('cls')  == 0:
         os.system('clear')
 
+def iswindows():
+    return os.name == 'nt'
     
 cprint("Essential Debugging")
 global FFMPEG_PATH
@@ -27,7 +29,8 @@ global tmp_dir
 global script_location
 global OUT_DIRECTORY
 
-OUT_DIRECTORY = str(os.getcwd())
+OUT_DIRECTORY = glv.OUT_DIRECTORY
+
 script_location = f'{os.path.dirname(os.path.realpath(__file__))}'
 tmp_dir = f'{script_location}/tmp'
 
@@ -120,8 +123,8 @@ def replace_api_penpencil_url(m3u8_content):
 def process_link(name, link,_id=None):
     print(f"\t\tProcessing file-name: {name}")
 
-    if os.path.exists('./main.m3u8'): os.system('rm -f ./main.m3u8') # remove already existing m3u8 file
-    if os.path.exists('./enc.key'):   os.system('rm -f ./enc.key')   # remove already existing key file
+    if os.path.exists('./main.m3u8'): os.system('rm -f ./main.m3u8') if not iswindows() else os.system('del /F main.m3u8') # remove already existing m3u8 file
+    if os.path.exists('./enc.key'):   os.system('rm -f ./enc.key')   if not iswindows() else os.system('del /F enc.key')# remove already existing key file
 
 
     download_m3u8(link)
@@ -199,8 +202,8 @@ def process_link(name, link,_id=None):
 
 
     if glv.vout: glv.dprint("enc.key and m3u8 status")
-    if glv.vout: os.system('ls -l | grep \'enc\' ') #DEBUG
-    if glv.vout: os.system('ls -l | grep \'m3u8\' ') #DEBUG
+    if glv.vout: os.system('ls -l | grep \'enc\' ') if not iswindows() else os.system('dir | findstr "enc') #DEBUG
+    if glv.vout: os.system('ls -l | grep \'m3u8\' ') if not iswindows() else os.system('dir | findstr "m3u8') #DEBUG
 
     #------------------------------------------------------------------------------------------
     # Convert to MP4 using ffmpeg
@@ -210,7 +213,7 @@ def process_link(name, link,_id=None):
 
     #------------------------------------------------------------------------------------------
     # Cleanup
-    os.system(f'rm -rf *.ts')
+    os.system(f'rm -rf *.ts') if not iswindows() else os.system('del /S /Q *.ts') 
     #------------------------------------------------------------------------------------------
 
 
@@ -308,11 +311,11 @@ def m3u8_module(name,link):
     #------------------------------------------------------------------------------------------
     #Cleanup
     os.chdir(start_location)
-    os.system(f'rm -rf {tmp_dir}')
+    os.system(f'rm -rf {tmp_dir}') if not iswindows() else os.system(f'rmdir /s /q {tmp_dir}')
     #------------------------------------------------------------------------------------------
     #Cleanup of ,m3u8 and .enc files 
-    os.system(f'rm -rf *.m3u8')
-    os.system(f'rm -rf *.enc')
+    os.system(f'rm -rf *.m3u8') if not iswindows() else os.system('del /s /q *.m3u8')
+    os.system(f'rm -rf *.enc') if not iswindows() else os.system('del /s /q *.enc')
     #-----------------------------------------------------------------------------------------
     return final_path + f"/.{name}.mp4"
 

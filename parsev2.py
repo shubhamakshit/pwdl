@@ -4,8 +4,7 @@ import glv
 
 
 def sudo_link(link):
-    vout = glv.vout
-    if vout: glv.dprint(f"AT PARSEV2 received link {link}") #debug
+    if glv.vout: glv.dprint(f"AT PARSEV2 received link {link}") #debug
     regex = r"[0-9a-z]{8}-[0-9a-z]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}"
     #tQest_str = "https://d1d34p8vz63oiq.cloudfront.net/5fa96c14-d286-429e-a05d9f48a2428a0b/dash/480/246.mp"
 
@@ -13,13 +12,13 @@ def sudo_link(link):
 
     if match:
         
-        link = "https://d26g5bnklkwsh4.cloudfront.net/"+ str(match.group())+  "/hls/720/main.m3u8"
+        link = f"https://{glv.SUDO_KEY}.cloudfront.net/{str(match.group())}/hls/720/main.m3u8"
         if glv.vout: glv.dprint(f'Link after running through parsev2 {link}')
         return link
 
         # No need to iterate over groups if there's only one match
     else:
-        print("No match found")
+        glv.errprint("No match found at 'sudo_link'.\nReturning -1 ...")
         return '-1'
 
 def sanitize_file_name(input_string):
@@ -42,5 +41,5 @@ def get_id_like_string(input_string):
         return str(match.group())
         # No need to iterate over groups if there's only one match
     else:
-        sys.stderr.write("No match found\n")
+        glv.errprint("No match found\n")
         return '-1'

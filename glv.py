@@ -1,4 +1,5 @@
 from colorama import *
+import os
 #colorama.init(autoreset=True)
 
 def dprint(text):
@@ -19,4 +20,7 @@ def setSuccess():
 
 def reset():
     print(f'{Style.RESET_ALL}',end="")
+    
 vout = True
+SUDO_KEY = 'd26g5bnklkwsh4'
+OUT_DIRECTORY = str(os.getcwd())

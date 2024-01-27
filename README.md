@@ -1,8 +1,8 @@
 # PW DOWNLOADER
 
 ## codename 'panther'
-- version = **0.1A**
-- development_name = **panther[0:1A]**
+- version = **1-beta**
+- development_name = **panther[1b]**
 
 ## Advantages
 - Easy to use commandline

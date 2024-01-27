@@ -314,14 +314,14 @@ def m3u8_module(name,link):
     if iswindows():
         try:
             shutil.move(os.path.join(os.getcwd(), f'{name}.mp4'), os.path.join(final_path, f'{name}.mp4'))
-            if glv.vout: glv.dprint("Successfully Transferred {name}.mp4 to {final_path}")
+            if glv.vout: glv.dprint(f"Successfully Transferred {name}.mp4 to {final_path}")
         except Exception as e:
             print(f"Error in moving {name}.mp4\nException trace -> {e}")
 
     #------------------------------------------------------------------------------------------
     #Cleanup
     os.chdir(start_location)
-    os.system(f'rm -rf {tmp_dir}') if not iswindows() else os.system(f'rmdir /s /q {tmp_dir}')
+    os.system(f'rm -rf {tmp_dir}') if not iswindows() else os.system('rmdir /s /q '+tmp_dir.replace('/','\\'))
     #------------------------------------------------------------------------------------------
     #Cleanup of ,m3u8 and .enc files 
     os.system(f'rm -rf *.m3u8') if not iswindows() else os.system('del /s /q *.m3u8')

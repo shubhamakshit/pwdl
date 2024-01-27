@@ -20,7 +20,7 @@
 
 ## Requirements
 - `ffmpeg` installed on PATH
-- python requirements `requests argparse urllib3 colorama tqdm ffpb`
+- python requirements `requests argparse urllib3 colorama tqdm ffpb prompt_toolkit`
 
 ```bash
 #For Debian/Ubuntu users
@@ -52,7 +52,7 @@ name, link
 #!/bin/bash 
 git clone https://github.com/shubhamakshit/pwdl.git
 cd pwdl/
-python -m pip install requests argparse urllib3 colorama tqdm
+python -m pip install requests argparse urllib3 colorama tqdm ffpb prompt_toolkit
 ```
 - Usage
 

@@ -46,7 +46,7 @@ print(f"FFMPEG PATH => {FFMPEG_PATH}")
 # dl_script_location is required as files are still downloaded using bash command via shell()
 dl_script_location = os.path.dirname(os.path.realpath(__file__)) + '/dl.py'
 
-start_location =  str(os.getcwd())
+start_location =  str(os.getcwd()).replace('\\','/')
 cprint('Initial steps performed') # DEBUG
 
 def tmp_dir_check():
@@ -85,7 +85,7 @@ def extract_last_segment_number(m3u8_content):
 def replace_api_penpencil_url(m3u8_content):
 
         if glv.vout: glv.dprint(f"DEBUGGING AT replace_api_penpencil_url()\n") # DEBUG
-        if glv.vout: glv.dprint(f"LOCATION : {os.getcwd()}\n") #DEUBG
+        if glv.vout: glv.dprint(f"LOCATION : {(os.getcwd()).replace('\\','/')}\n") #DEUBG
         #
         # sys.stderr.write(f"AT replace_api_penpencil_url():\n content: {m3u8_content}") #debug
         #

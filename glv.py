@@ -23,4 +23,4 @@ def reset():
     
 vout = True
 SUDO_KEY = 'd26g5bnklkwsh4'
-OUT_DIRECTORY = str(os.getcwd())
+OUT_DIRECTORY = str(os.getcwd()).replace('\\','/')

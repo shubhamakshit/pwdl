@@ -85,7 +85,7 @@ def extract_last_segment_number(m3u8_content):
 def replace_api_penpencil_url(m3u8_content):
 
         if glv.vout: glv.dprint(f"DEBUGGING AT replace_api_penpencil_url()\n") # DEBUG
-        if glv.vout: glv.dprint(f"LOCATION : {(os.getcwd()).replace('\','/')}\n") #DEUBG
+        #if glv.vout: glv.dprint(f"LOCATION : {(os.getcwd()).replace('\','/')}\n") #DEUBG
         #
         # sys.stderr.write(f"AT replace_api_penpencil_url():\n content: {m3u8_content}") #debug
         #

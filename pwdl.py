@@ -311,7 +311,11 @@ def m3u8_module(name,link):
     else:
         print(f"Error in moving {name}.mp4")
     
-    if iswindows(): try: shutil.move(os.path.join(os.getcwd(), f'{name}.mp4'), os.path.join(final_path, f'{name}.mp4')) except Exception as e: print(f"Error in moving {name}.mp4\nException trace -> {e}")
+    if iswindows():
+        try:
+            shutil.move(os.path.join(os.getcwd(), f'{name}.mp4'), os.path.join(final_path, f'{name}.mp4'))
+        except Exception as e:
+            print(f"Error in moving {name}.mp4\nException trace -> {e}")
 
     #------------------------------------------------------------------------------------------
     #Cleanup

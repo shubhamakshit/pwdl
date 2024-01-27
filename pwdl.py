@@ -52,7 +52,7 @@ cprint('Initial steps performed') # DEBUG
 def tmp_dir_check():
     try:
         if glv.vout: glv.dprint(f"tmp_dir {tmp_dir}")
-        if not os.path.exists(f'{tmp_dir}') : os.system(f'mkdir {tmp_dir}')
+        if not os.path.exists(f'{tmp_dir}') : os.system(f'mkdir "{tmp_dir}" ')
     except:
         glv.errprint(f"Failed to create directory {os.getcwd()}/tmp\nExiting...")
         exit(-2)

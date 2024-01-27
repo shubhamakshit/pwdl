@@ -1,1 +1,2 @@
 ffmpeg="PATH"
+verbose="False"

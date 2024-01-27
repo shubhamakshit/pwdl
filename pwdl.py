@@ -1,3 +1,6 @@
+from prompt_toolkit import prompt
+from prompt_toolkit.completion import WordCompleter,Completer
+from prompt_toolkit.history import FileHistory
 import requests
 import os
 import shutil
@@ -24,6 +27,7 @@ def iswindows():
     return os.name == 'nt'
     
 cprint("Essential Debugging")
+glv.dprint(str(pf.prefs))
 global FFMPEG_PATH
 global tmp_dir
 global script_location
@@ -224,7 +228,7 @@ def main():
      
     
 
-    glv.vout = False
+    
 
 
     parser = argparse.ArgumentParser(description='PhysicsWallah M3u8 parser.')
@@ -235,25 +239,66 @@ def main():
     parser.add_argument('--verbose',action='store_true',help='Verbose Output')
     args = parser.parse_args()
 
+    # user_input is given prefernce i.e if --verbose is true it will override
+    # however if --verbose is false but pf.prefs['verbose'] is true 
     glv.vout = args.verbose
     
+    if not glv.vout and pf.prefs['verbose'] : glv.vout = pf.prefs['verbose']
+
+
     # cleaning unnecessary debug info 
     if not glv.vout: clear()
     
     if args.dir:
         OUT_DIRECTORY = args.dir
         if glv.vout: glv.dprint(OUT_DIRECTORY)
-    
+
+    #if both csv file and (url or name) is provided then -> exit with error code 3
     if args.csv_file and ( args.url or args.name):
         print("Both csv file and url (or name) is provided. Unable to decide. Aborting! ...")
-        exit(3)
+        sys.exit(3)
 
+    # handle in case --csv-file is provided
     if args.csv_file:
         csv_m3u8(args.csv_file)
 
+    # handle in case url and name is given 
     elif args.url and args.name:
         m3u8_module(args.name, args.url)
+    
+    # in case neither is used 
     else:
+
+        def add_command(args):
+            """Adds a name and URL to a list or performs other actions as needed."""
+            name = args[0]
+            url = args[1]
+            if glv.vout: glv.dprint(f"Adding {name} with URL {url} to the downlaod.")
+            m3u8_module(name,url)
+            # You can add the name and URL to a list or perform other actions here
+
+        commands = {
+            "add": [re.compile(r"add\s+([\w-]+)\s+(\S+)"), add_command],
+            "clear":[re.compile(r"(cls|clear)[ ]*"),lambda x : clear()]
+            }
+
+        
+        history = FileHistory(".pwdl_history")
+
+        while True:
+
+            command = prompt("\n|PWDL|>", history=history)
+
+            if command.strip() == 'exit' : sys.exit(0)
+
+            for command_name, (regex, function) in commands.items():
+                match = regex.match(command)
+                if match:
+                    function(match.groups())
+                    break
+            else:
+                print("Invalid command.")
+
         print("Invalid usage. Use either --csv_file or --url with --name.")
         parser.print_help()
 
@@ -281,14 +326,13 @@ def csv_m3u8(csv_file):
             link = line_content[1]
 
             try:
-                tmp_dir_check()
                 m3u8_module(name,link)
             except Exception as e:
                 glv.errprint(f"Error Processing {name} with link:{link}")
                 glv.errprint(f"Exception trace,{e}")
 
 def m3u8_module(name,link):
-
+    tmp_dir_check()
     final_path = OUT_DIRECTORY
   
     from parsev2 import sudo_link as get_id

@@ -1,9 +1,13 @@
-import os 
-global PREF_FILE
-global FFMPEG_PATH
+import os
+import shutil
 
 __FFMPEG_PATH__ = "PATH"
 PREF_FILE = f"{os.path.dirname(os.path.realpath(__file__))}/user.pref"
+
+prefs = {
+    "ffmpeg" : "PATH",
+    "verbose": False
+}
 
 def remove_quotes(input_str):
     """
@@ -20,7 +24,7 @@ def remove_quotes(input_str):
     else:
         return input_str
 
-import shutil
+
 
 def __find_ffmpeg_path__():
     # Search for ffmpeg executable in the system's PATH
@@ -52,9 +56,19 @@ try:
                 print(f'Data at {line_number} is neither valid nor comment\nSkipping..')
                 continue
             
-            if line_data[0].strip() == "ffmpeg":
+            name  = line_data[0].strip()
+            value = remove_quotes(line_data[1])
+
+            
+            if name == "ffmpeg":
                 print(f"FFMPEG PATH at pf => {line_data[1]}")
-                __FFMPEG_PATH__ = remove_quotes(line_data[1])
+                prefs['ffmpeg'] = value
+            
+            elif name == "verbose":
+                if value.lower() == "true": prefs['verbose'] = True
+                else : prefs['verbose'] = False
+                
+
 
 except Exception as e:
     print(f'Cannot read {PREF_FILE}\nExiting ...')
@@ -63,6 +77,5 @@ except Exception as e:
 
 def ffmpeg_path():
     print(f'Global variable FFMPEG_PATH value at ffmpeg_path() in pf => {__FFMPEG_PATH__}')
-    if __FFMPEG_PATH__ == "PATH" : return __find_ffmpeg_path__()
-    return __FFMPEG_PATH__
-
+    if prefs['ffmpeg'] == "PATH" : return __find_ffmpeg_path__()
+    return prefs['ffmpeg']

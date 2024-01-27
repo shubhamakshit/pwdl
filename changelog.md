@@ -38,8 +38,10 @@ panther[0:1] edited the original files to suit commandline usage
  
 ## Updates
 
-- Huge! WINDOWS NOW SUPPORTED!
-- All issues in panther[0:1A] fixed ;) 
+ - Huge! WINDOWS NOW SUPPORTED!
+ - All issues in panther[0:1A] fixed ;)
+ - added a terminal like interface when file is run without arguments 
+ - changed the way pref works ( easier to manitain code )
 
 ## Known issues
 - issue with `requests` library not fixed 

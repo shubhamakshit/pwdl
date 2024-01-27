@@ -32,7 +32,7 @@ global OUT_DIRECTORY
 OUT_DIRECTORY = glv.OUT_DIRECTORY
 
 script_location = f'{os.path.dirname(os.path.realpath(__file__))}'.replace('\\','/')
-tmp_dir = f'{script_location}/tmp'
+tmp_dir = f'{script_location}/tmp'.replace('\\','/')
 
 FFMPEG_PATH = pf.ffmpeg_path()
 if FFMPEG_PATH == None:
@@ -51,10 +51,10 @@ cprint('Initial steps performed') # DEBUG
 
 def tmp_dir_check():
     try:
-        if gvl.vout: gvl.errprint(f"tmp_dir {tmp_dir}")
+        if gvl.vout: gvl.dprint(f"tmp_dir {tmp_dir}")
         if not os.path.exists(f'{tmp_dir}') : os.system(f'mkdir {tmp_dir}')
     except:
-        print(f"Failed to create directory {os.getcwd()}/tmp\nExiting...")
+        gvl.errprint(f"Failed to create directory {os.getcwd()}/tmp\nExiting...")
         exit(-2)
 
 

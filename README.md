@@ -18,13 +18,22 @@
 - no documentation or help
 
 ## Requirements
-- `aria2c` (package name `aria2`) installed on PATH
 - `ffmpeg` installed on PATH
+- python requirements `requests argparse urllib3 colorama tqdm`
 
 ```bash
 #For Debian/Ubuntu users
 sudo apt-get update -y
-sudo apt-get install aria2 ffmpeg -y
+sudo apt-get install ffmpeg -y
+
+#For Fedora users
+sudo dnf install \
+https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+sudo dnf update
+sudo dnf install ffmpeg
+
+#Note: this app will work on any linux that supports python, ffmpeg, and python-requirements
 ```
 
 

@@ -34,5 +34,14 @@ panther[0:1] edited the original files to suit commandline usage
  - known to hog bandwith while being used
  - available to linux only 
 
+# panther[1f]
+ 
+## Updates
+
+- Huge! WINDOWS NOW SUPPORTED!
+- All issues in panther[0:1A] fixed ;) 
+
+## Known issues
+- issue with `requests` library not fixed 
 
 

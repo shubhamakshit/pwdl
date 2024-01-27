@@ -10,12 +10,12 @@
 - Uses Multi Threading for blazing download speed
 
 ## Issues - to be fixed
-- Only available for **linux** ( bash only )
+- ~~Only available for **linux** ( bash only )~~
 - ~~requires aria2c to installed and on path [ will be replaced by requests library soon ]~~
 - ~~cannot show download progress as of now [ will be fixed along with aria2c issue ]~~
 - ~~requires ffmpeg to be installed and on path [ plans to create a auto-install script ]~~
 - ~~now download is via a csv file only [ will add an option for a single url through commandline ]~~
-- ffmpeg issue with ffpb
+- ~~ffmpeg issue with ffpb~~
 - no documentation or help
 
 ## Requirements

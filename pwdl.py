@@ -324,5 +324,5 @@ def m3u8_module(name,link):
 
 if __name__ == "__main__":
     main()
-    
+    glv.reset()
 

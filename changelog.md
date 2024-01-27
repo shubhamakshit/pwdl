@@ -28,6 +28,7 @@ panther[0:1] edited the original files to suit commandline usage
  - cleansed the entire app
  - added verbose flag for debugging 
  - now requires colorama installed ( colour printing )
+ - changed name of m3u8.py to pwdl.py
  ## Known Issues
  - `requests` creates issue called 'connection reset by peer'
  - known to hog bandwith while being used

@@ -65,13 +65,13 @@ python m3u8.py --csv-file "/path/to/file.csv"
 
 # alternate usages 
 export CSV_FILE="/path/to/file.csv"
-python m3u8.py --csv-file "$CSV_FILE"
+python pwdl.py --csv-file "$CSV_FILE"
 
-python m3u8.py --url "<url>" --name "name"
+python pwdl.py --url "<url>" --name "name"
 
 # You may also use the --dir flag to change output directory
 
-python m3u8.py --csv-file "file.csv" --dir "/path/to/out/dir/"
+python pwdl.py --csv-file "file.csv" --dir "/path/to/out/dir/"
 #                        or
-python m3u8.py --url "url" --name "name" --dir "/path/to/out/dir"
+python pwdl.py --url "url" --name "name" --dir "/path/to/out/dir"
 ```

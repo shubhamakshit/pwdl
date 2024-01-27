@@ -35,8 +35,8 @@ FFMPEG_PATH = pf.ffmpeg_path()
 if FFMPEG_PATH == None:
     print(f"no valid ffmpeg path in in {pf.PREF_FILE}\nExiting ...")
     exit(2)
-if FFMPEG_PATH.endswith('ffmpeg'):
-    FFMPEG_PATH = FFMPEG_PATH[:-6] + "ffpb"
+if os.system('ffbp') == 0 :
+    FFMPEG_PATH = 'ffpb'
 print(f"FFMPEG PATH => {FFMPEG_PATH}")
 
 

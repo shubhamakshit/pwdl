@@ -304,13 +304,15 @@ def m3u8_module(name,link):
     glv.setDebug() # set debug => True
     # checks if file moved (that is all operations done)
     
-    move_exit_code = shell(f'mv {"-v" if glv.vout else ""} ./{name}.mp4 {final_path}') if not iswindows() else shutil.move(os.path.join(os.getcwd(), f'{name}.mp4'), os.path.join(final_path, f'{name}.mp4'))
+    move_exit_code = shell(f'mv {"-v" if glv.vout else ""} ./{name}.mp4 {final_path}') if not iswindows() else 0
     if move_exit_code == 0:
         glv.reset()
         cprint(f"Done! {name}.mp4")
     else:
         print(f"Error in moving {name}.mp4")
-       
+    
+    if iswindows(): try: shutil.move(os.path.join(os.getcwd(), f'{name}.mp4'), os.path.join(final_path, f'{name}.mp4')) except Exception as e: print(f"Error in moving {name}.mp4\nException trace -> {e}")
+
     #------------------------------------------------------------------------------------------
     #Cleanup
     os.chdir(start_location)

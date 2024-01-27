@@ -45,6 +45,9 @@ cd pwdl/
 python -m pip install requests argparse urllib3 colorama tqdm
 ```
 - Usage
+
+use `--verbose` for verbose output
+
 ```bash
 python m3u8.py --csv-file "/path/to/file.csv"
 ```

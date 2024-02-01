@@ -250,7 +250,8 @@ def main():
     if not glv.vout: clear()
     
     if args.dir:
-        OUT_DIRECTORY = args.dir
+        
+        OUT_DIRECTORY = os.path.abspath(args.dir)
         if glv.vout: glv.dprint(OUT_DIRECTORY)
 
     #if both csv file and (url or name) is provided then -> exit with error code 3
@@ -268,7 +269,8 @@ def main():
     
     # in case neither is used 
     else:
-
+        # Warning as pwdl-console is still not complete
+        if not pf.prefs['supress_warn']: glv.dprint("Console still under development")
         def add_command(args):
             """Adds a name and URL to a list or performs other actions as needed."""
             name = args[0]
@@ -278,8 +280,16 @@ def main():
             # You can add the name and URL to a list or perform other actions here
 
         commands = {
-            "add": [re.compile(r"add\s+([\w-]+)\s+(\S+)"), add_command],
+            # "add": [re.compile(r"add\s+([\w-]+)\s+(\S+)"), add_command],
+            "add_help":[
+                re.compile(r"add\s+(\-h|\-\-help)[ ]*"),
+                lambda x: print("add\nFunction: Download Videos via url\nUsage:\tadd <name> <url>")
+            ],
+            "add": [
+                re.compile(r"add\s+([\w-]+)\s+(\S+)"), add_command,  # Enclose in parentheses
+            ],
             "clear":[re.compile(r"(cls|clear)[ ]*"),lambda x : clear()]
+
             }
 
         

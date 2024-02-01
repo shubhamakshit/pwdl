@@ -1,12 +1,14 @@
 import os
 import shutil
+import glv
 
 __FFMPEG_PATH__ = "PATH"
 PREF_FILE = f"{os.path.dirname(os.path.realpath(__file__))}/user.pref"
 
 prefs = {
     "ffmpeg" : "PATH",
-    "verbose": False
+    "verbose": False,
+    "supress_Warn":True
 }
 
 def remove_quotes(input_str):
@@ -31,51 +33,59 @@ def __find_ffmpeg_path__():
     ffmpeg_path = shutil.which('ffmpeg')
 
     if ffmpeg_path:
-        print(f'ffmpeg found at: {ffmpeg_path}')
+        glv.dprint(f'ffmpeg found at: {ffmpeg_path}')
         return ffmpeg_path
     else:
-        print('ffmpeg not found in PATH. Make sure it is installed.')
+        glv.errprint('ffmpeg not found in PATH. Make sure it is installed.')
         return None
 
+def main():
+    if glv.vout: glv.dprint('Now running main() of parse_pref')
+    try:
+        line_number = 0 
+        with open(PREF_FILE,'r') as pref:
+            data = pref.read()
+            for line in data.split('\n'):
+                line_number += 1
 
-try:
-    line_number = 0 
-    with open(PREF_FILE,'r') as pref:
-        data = pref.read()
-        for line in data.split('\n'):
-            line_number += 1
+                if not line:
+                    glv.dprint(f"Empty data at {line_number}")
+                    continue
 
-            if not line:
-                print(f"Empty data at {line_number}")
-                continue
+                if line.strip().startswith("#"):continue    
 
-            if line.strip().startswith("#"):continue    
-
-            line_data = line.split('=')
-            if not len(line_data) == 2:
-                print(f'Data at {line_number} is neither valid nor comment\nSkipping..')
-                continue
-            
-            name  = line_data[0].strip()
-            value = remove_quotes(line_data[1])
-
-            
-            if name == "ffmpeg":
-                print(f"FFMPEG PATH at pf => {line_data[1]}")
-                prefs['ffmpeg'] = value
-            
-            elif name == "verbose":
-                if value.lower() == "true": prefs['verbose'] = True
-                else : prefs['verbose'] = False
+                line_data = line.split('=')
+                if not len(line_data) == 2:
+                    print(f'Data at {line_number} is neither valid nor comment\nSkipping..')
+                    continue
                 
+                name  = line_data[0].strip()
+                value = remove_quotes(line_data[1])
+
+                
+                if name == "ffmpeg":
+                    print(f"FFMPEG PATH at pf => {line_data[1]}")
+                    prefs['ffmpeg'] = value
+                
+                elif name == "verbose":
+                    if value.lower() == "true": prefs['verbose'] = True
+                    else : prefs['verbose'] = False
+
+                elif name == "supress_warn":
+                    if value.lower() == "false": prefs['supress_warn'] = False
+                    else: prefs['supress_warn'] = True
+                    
 
 
-except Exception as e:
-    print(f'Cannot read {PREF_FILE}\nExiting ...')
-    print(f'Error {e}')
-    exit(1)
+    except Exception as e:
+        print(f'Cannot read {PREF_FILE}\nExiting ...')
+        print(f'Error {e}')
+        exit(1)
 
 def ffmpeg_path():
     print(f'Global variable FFMPEG_PATH value at ffmpeg_path() in pf => {__FFMPEG_PATH__}')
     if prefs['ffmpeg'] == "PATH" : return __find_ffmpeg_path__()
     return prefs['ffmpeg']
+
+if __name__ == "__main__":
+    main()

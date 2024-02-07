@@ -8,7 +8,7 @@ PREF_FILE = f"{os.path.dirname(os.path.realpath(__file__))}/user.pref"
 prefs = {
     "ffmpeg" : "PATH",
     "verbose": False,
-    "supress_Warn":True
+    "supress_warn":True
 }
 
 def remove_quotes(input_str):

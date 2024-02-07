@@ -288,7 +288,10 @@ def main():
             "add": [
                 re.compile(r"add\s+([\w-]+)\s+(\S+)"), add_command,  # Enclose in parentheses
             ],
-            "clear":[re.compile(r"(cls|clear)[ ]*"),lambda x : clear()]
+            "clear":[re.compile(r"(cls|clear)[ ]*"),lambda x : clear()],
+            
+            #  bash command has yet to be designed
+            # "bash":[re.compile(r"bash[ ]*[A-Za-z0-9\-\$]*"),lambda x:shell(" ".join(x))]
 
             }
 

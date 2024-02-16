@@ -6,16 +6,31 @@ import os
 import subprocess
 import time
 import sys
+from io import *
+import io
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app)
+std_org= sys.stdout
+output = io.StringIO()
 
 tasks ={}
 
+def run(name,url):
+    from pwdl import m3u8_module
+    m3u8_module(name,url)
+     
+
+def send_to_client():
+    while sys.stdout == output:
+        time.sleep(0.1)
+        socketio.emit('stdout', {'output': output.getvalue()})
+
 @socketio.on('onconnect')
 def onconnect(data):
-    print(f'{data}')
+    std_org.write(f'{data}')
 
 @socketio.on('recieved')
 def onrecieved(data):
@@ -25,22 +40,22 @@ def onrecieved(data):
     print(f'{data}')
     names = data.get('names')
     links = data.get('links')
-
     for i in range(len(names)):
-        print(f'{names[i]} : {links[i]}')
-        command = f'python pwdl.py --url {links[i]} --name {names[i]}'
+        name = names[i]
+        url = links[i]
 
-        # Create a separate thread to run the command and capture stdout
-        def run_command():
-            process = subprocess.Popen(command, shell=True, stdout=sys.stdout, stderr=sys.stderr)
-            while process.poll() is None:
-                output = sys.stdout.readline()
-                socketio.emit('stdout', {'output': output})
-                socketio.emit('progress', {'progress':"Hello World"})
-                time.sleep(0.01)
+        
+        sys.stdout = output
+     
+        t1 = threading.Thread(target=run,args=(name,url))
+        t2 = threading.Thread(target=send_to_client)
+        t1.start()
+        t2.start()
+        t1.join()
+        t2.join()
 
-        thread = threading.Thread(target=run_command)
-        thread.start()
+        sys.stdout = std_org
+        
     
 
 @app.route("/",methods=["GET","POST"])

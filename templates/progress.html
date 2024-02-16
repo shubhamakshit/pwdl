@@ -1,0 +1,76 @@
+<!-- FILEPATH: /workspaces/pwdl/templates/progress.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Include Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Include jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">Logo</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="#">Navbar Link</a></li>
+            </ul>
+        </div>
+    </nav>
+
+   <div class="containerr">
+
+        <textarea id="myTextarea" class="materialize-textarea" style="padding-top: 10% !important;"></textarea>
+
+   </div>
+
+
+    <script>
+        $(document).ready(function() {
+            // Auto scroll to the bottom of the textarea
+            function scrollToBottom() {
+                var textarea = $('#myTextarea');
+                textarea.scrollTop(textarea[0].scrollHeight);
+            }
+
+            // Add data to the textarea
+            function addDataToTextarea(data) {
+                var textarea = $('#myTextarea');
+                textarea.val(textarea.val() + data);
+                scrollToBottom();
+            }
+
+            task = {{task | safe}};
+
+            socket.emit('recieved', {data: task});
+            socket.on('stdout', function(data) {
+                $('#myTextarea').html(data);
+                scrollToBottom();});
+
+                socket.on('progress', function(data) {
+                $('#myTextarea').html(progress['progress']);
+                scrollToBottom();});
+            
+            
+
+        });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf-8">
+        var socket = io();
+        socket.on('connect', function() {
+            socket.emit('onconnect', {data: 'I\'m connected! Hell Yeah'});
+        });
+
+        socket.on('recieve', function(data) {
+            addDataToTextarea("Added");
+            console.log("added");
+        });
+    </script>
+
+    <!-- Include Materialize JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>

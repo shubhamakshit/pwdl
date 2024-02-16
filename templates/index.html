@@ -1,0 +1,64 @@
+<!-- FILEPATH: /workspaces/pwdl/templates/index.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Include Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+        .input-field.inline {
+            display: inline-block;
+            width: 50%; /* Change the width to 50% to make the fields appear side by side */
+            margin-bottom: 10px; /* Add margin-bottom to create space between fields */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3>Add Name and Link</h3>
+        <form action="/" method="POST">
+            <div id="name-link-container">
+                <div class="row"> <!-- Add a row container -->
+                    <div class="input-field inline col s6"> <!-- Add col s6 class to make the fields occupy half of the row -->
+                        <input type="text" name="name[]" required>
+                        <label for="name">Name</label>
+                    </div>
+                    <div class="input-field inline col s6"> <!-- Add col s6 class to make the fields occupy half of the row -->
+                        <input type="text" name="link[]" required>
+                        <label for="link">Link</label>
+                    </div>
+                </div>
+            </div>
+            <button class="btn" type="submit">Submit</button>
+            <button class="btn" id="add-field-btn" type="button">Add More</button>
+            <input type="hidden" name="session_uuid" value="{{session_uuid}}">
+        </form>
+    </div>
+
+    <!-- Include Materialize JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        document.getElementById('add-field-btn').addEventListener('click', function() {
+            var container = document.getElementById('name-link-container');
+            var row = document.createElement('div'); // Create a new row container
+            row.classList.add('row'); // Add the row class to the new row container
+
+            var nameField = document.createElement('div');
+            nameField.classList.add('input-field', 'inline', 'col', 's6'); // Add col s6 class to the dynamically added fields
+            nameField.innerHTML = `
+                <input type="text" name="name[]" required>
+                <label for="name">Name</label>
+            `;
+            var linkField = document.createElement('div');
+            linkField.classList.add('input-field', 'inline', 'col', 's6'); // Add col s6 class to the dynamically added fields
+            linkField.innerHTML = `
+                <input type="text" name="link[]" required>
+                <label for="link">Link</label>
+            `;
+            row.appendChild(nameField); // Append the name field to the new row
+            row.appendChild(linkField); // Append the link field to the new row
+            container.appendChild(row); // Append the new row to the container
+        });
+    </script>
+</body>
+</html>
